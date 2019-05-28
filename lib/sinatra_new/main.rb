@@ -10,12 +10,12 @@ class SinatraNew::Main
 
     puts "      run  git init from '.'"
     if !system('git init')
-      puts "Unable to initialize git repository."
+      puts "'git init' failed."
     end
 
     puts "      run  bundle install"
     if !system('bundle install')
-      puts "Unable to run 'bundle install'. You will need to manually run it."
+      puts "'bundle install' failed."
     end
 
   end
