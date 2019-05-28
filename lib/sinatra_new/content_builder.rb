@@ -67,7 +67,7 @@ class SinatraNew::ContentBuilder
   end
 
   def self.build_config_environment_file(app_name)
-    File.open("#{app_name}/app/config/environment.rb", 'w') do |file|
+    File.open("#{app_name}/config/environment.rb", 'w') do |file|
       file.write(
         <<~HEREDOC
         require 'bundler'

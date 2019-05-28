@@ -17,13 +17,13 @@ class SinatraNew::FileGenerator
       FileUtils.touch("#{app_name}/app/views/layout.erb")
       FileUtils.touch("#{app_name}/app/views/index.erb")
 
-        # app/config
-      FileUtils.mkdir("#{app_name}/app/config")
-      FileUtils.touch("#{app_name}/app/config/environment.rb")
+        # config
+      FileUtils.mkdir("#{app_name}/config")
+      FileUtils.touch("#{app_name}/config/environment.rb")
 
-        # app/db
-      FileUtils.mkdir("#{app_name}/app/db")
-      FileUtils.mkdir("#{app_name}/app/db/migrate")
+        # db
+      FileUtils.mkdir("#{app_name}/db")
+      FileUtils.mkdir("#{app_name}/db/migrate")
 
         # config.ru
       FileUtils.touch("#{app_name}/config.ru")
