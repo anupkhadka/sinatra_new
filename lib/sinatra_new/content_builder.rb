@@ -4,6 +4,7 @@ class SinatraNew::ContentBuilder
     build_app_controllers_files(app_name)
     build_app_views_layout_file(app_name)
     build_app_views_index_file(app_name)
+    build_app_config_environment_file(app_name)
   end
 
   private
@@ -60,6 +61,26 @@ class SinatraNew::ContentBuilder
       )
     end
   end
+
+  def self.build_app_config_environment_file(app_name)
+    File.open("#{app_name}/app/config/environment.rb", 'w') do |file|
+      file.write(
+        <<~HEREDOC
+        require 'bundler'
+        require 'bundler/setup'
+        Bundler.require(:default)
+
+        ActiveRecord::Base.establish_connection(
+          :adapter => "sqlite3",
+          :database => "db/development.sqlite"
+        )
+
+        require_all 'app'
+        HEREDOC
+      )
+    end
+  end
+
 
 
 end
