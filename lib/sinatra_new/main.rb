@@ -6,7 +6,7 @@ class SinatraNew::Main
     end
     app_name = args[0]
     SinatraNew::FileGenerator.generate_files(app_name)
-
+    SinatraNew::ContentBuilder.build_content(app_name)
   end
 
   private
