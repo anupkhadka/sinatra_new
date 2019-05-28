@@ -3,6 +3,7 @@ class SinatraNew::ContentBuilder
   def self.build_content(app_name)
     build_app_controllers_files(app_name)
     build_app_views_layout_file(app_name)
+    build_app_views_index_file(app_name)
   end
 
   private
@@ -47,5 +48,18 @@ class SinatraNew::ContentBuilder
       )
     end
   end
+
+  def self.build_app_views_index_file(app_name)
+    title = app_name.split(/[_,-]/).map {|word| word.capitalize}.join
+    File.open("#{app_name}/app/views/index.erb", 'w') do |file|
+      file.write(
+        <<~HEREDOC
+          <h1>#{title}</h1>
+          <h2>Landing page of your brand new sinatra app.</h2>
+        HEREDOC
+      )
+    end
+  end
+
 
 end
