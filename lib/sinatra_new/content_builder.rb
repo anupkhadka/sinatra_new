@@ -7,6 +7,7 @@ class SinatraNew::ContentBuilder
     build_config_environment_file(app_name)
     build_configru_file(app_name)
     build_gemfile(app_name)
+    build_rakefile(app_name)
   end
 
   private
@@ -117,6 +118,17 @@ class SinatraNew::ContentBuilder
         gem 'bcrypt'
         gem "tux"
         gem "rack-flash3"
+        HEREDOC
+      )
+    end
+  end
+
+  def self.build_rakefile(app_name)
+    File.open("#{app_name}/Gemfile", 'w') do |file|
+      file.write(
+        <<~HEREDOC
+        require_relative './config/environment'
+        require 'sinatra/activerecord/rake'
         HEREDOC
       )
     end
