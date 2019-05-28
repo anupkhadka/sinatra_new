@@ -5,7 +5,7 @@ class SinatraNew::Main
       exit(false)
     end
     app_name = args[0]
-    puts "Creating a new app: #{app_name}"
+    SinatraNew::FileGenerator.generate_files(app_name)
 
   end
 
