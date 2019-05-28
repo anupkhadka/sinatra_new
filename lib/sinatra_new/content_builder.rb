@@ -1,0 +1,3 @@
+class SinatraNew::ContentBuilder
+
+end
