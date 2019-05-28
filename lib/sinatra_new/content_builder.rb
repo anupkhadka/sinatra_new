@@ -8,6 +8,7 @@ class SinatraNew::ContentBuilder
     build_configru_file(app_name)
     build_gemfile(app_name)
     build_rakefile(app_name)
+    build_readme_file(app_name)
   end
 
   private
@@ -124,7 +125,7 @@ class SinatraNew::ContentBuilder
   end
 
   def self.build_rakefile(app_name)
-    File.open("#{app_name}/Gemfile", 'w') do |file|
+    File.open("#{app_name}/Rakefile", 'w') do |file|
       file.write(
         <<~HEREDOC
         require_relative './config/environment'
@@ -134,6 +135,15 @@ class SinatraNew::ContentBuilder
     end
   end
 
-
+  def self.build_readme_file(app_name)
+    title = app_name.split(/[_,-]/).map {|word| word.capitalize}.join
+    File.open("#{app_name}/README.md", 'w') do |file|
+      file.write(
+        <<~HEREDOC
+        # #{title}
+        HEREDOC
+      )
+    end
+  end
 
 end
