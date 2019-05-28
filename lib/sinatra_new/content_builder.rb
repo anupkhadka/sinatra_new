@@ -4,7 +4,8 @@ class SinatraNew::ContentBuilder
     build_app_controllers_files(app_name)
     build_app_views_layout_file(app_name)
     build_app_views_index_file(app_name)
-    build_app_config_environment_file(app_name)
+    build_config_environment_file(app_name)
+    build_configru_file(app_name)
   end
 
   private
@@ -62,7 +63,7 @@ class SinatraNew::ContentBuilder
     end
   end
 
-  def self.build_app_config_environment_file(app_name)
+  def self.build_config_environment_file(app_name)
     File.open("#{app_name}/app/config/environment.rb", 'w') do |file|
       file.write(
         <<~HEREDOC
@@ -80,6 +81,24 @@ class SinatraNew::ContentBuilder
       )
     end
   end
+
+  def self.build_configru_file(app_name)
+    File.open("#{app_name}/config.ru", 'w') do |file|
+      file.write(
+        <<~HEREDOC
+        require './config/environment'
+
+        if ActiveRecord::Migrator.needs_migration?
+          raise 'Migrations are pending. Run `rake db:migrate` to resolve the issue.'
+        end
+
+        run ApplicationController
+        HEREDOC
+      )
+    end
+  end
+
+
 
 
 
