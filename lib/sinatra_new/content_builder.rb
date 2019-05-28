@@ -6,6 +6,7 @@ class SinatraNew::ContentBuilder
     build_app_views_index_file(app_name)
     build_config_environment_file(app_name)
     build_configru_file(app_name)
+    build_gemfile(app_name)
   end
 
   private
@@ -98,7 +99,28 @@ class SinatraNew::ContentBuilder
     end
   end
 
+  def self.build_gemfile(app_name)
+    File.open("#{app_name}/Gemfile", 'w') do |file|
+      file.write(
+        <<~HEREDOC
+        source 'http://rubygems.org'
 
+        gem 'sinatra'
+        gem 'activerecord', '4.2.5', :require => 'active_record'
+        gem 'sinatra-activerecord', :require => 'sinatra/activerecord'
+        gem 'rake'
+        gem 'require_all'
+        gem 'sqlite3', '~>1.3.6'
+        gem 'thin'
+        gem 'shotgun'
+        gem 'pry'
+        gem 'bcrypt'
+        gem "tux"
+        gem "rack-flash3"
+        HEREDOC
+      )
+    end
+  end
 
 
 
