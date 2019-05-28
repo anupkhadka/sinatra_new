@@ -36,7 +36,7 @@ class SinatraNew::ContentBuilder
   end
 
   def self.build_app_views_layout_file(app_name)
-    title = app_name.split(/[_,-]/).map {|word| word.capitalize}.join
+    title = app_name.split(/[\/,\\]/).last.split(/[_,-]/).map {|word| word.capitalize}.join
     File.open("#{app_name}/app/views/layout.erb", 'w') do |file|
       file.write(
         <<~HEREDOC
@@ -55,7 +55,7 @@ class SinatraNew::ContentBuilder
   end
 
   def self.build_app_views_index_file(app_name)
-    title = app_name.split(/[_,-]/).map {|word| word.capitalize}.join
+    title = app_name.split(/[\/,\\]/).last.split(/[_,-]/).map {|word| word.capitalize}.join
     File.open("#{app_name}/app/views/index.erb", 'w') do |file|
       file.write(
         <<~HEREDOC
@@ -136,7 +136,7 @@ class SinatraNew::ContentBuilder
   end
 
   def self.build_readme_file(app_name)
-    title = app_name.split(/[_,-]/).map {|word| word.capitalize}.join
+    title = app_name.split(/[\/,\\]/).last.split(/[_,-]/).map {|word| word.capitalize}.join
     File.open("#{app_name}/README.md", 'w') do |file|
       file.write(
         <<~HEREDOC
