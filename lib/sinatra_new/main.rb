@@ -7,6 +7,15 @@ class SinatraNew::Main
     app_name = args[0]
     SinatraNew::FileGenerator.generate_files(app_name)
     SinatraNew::ContentBuilder.build_content(app_name)
+
+    if !system('git init')
+      puts "Unable to initialize git repository."
+    end
+
+    if !system('bundle install')
+      puts "Unable to run 'bundle install'. You will need to manually run it."
+    end
+
   end
 
   private
