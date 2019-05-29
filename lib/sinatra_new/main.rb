@@ -1,19 +1,29 @@
 class SinatraNew::Main
 
+  @@app_name = ""
+  @@options = {:skip_database => false}
+
   def self.main(args)
     if !cmd_arg_is_valid?(args)
       exit(false)
     end
-    app_name = args[0]
-    SinatraNew::FileGenerator.generate_files(app_name)
-    SinatraNew::ContentBuilder.build_content(app_name)
+    @@app_name = args[0]
+    SinatraNew::FileGenerator.generate_files
+    SinatraNew::ContentBuilder.build_content
 
     puts "      run  git init from '.'"
-    git_command = "git init #{app_name}"
+    git_command = "git init #{@@app_name}"
     if !system(git_command)
       puts "'git init' failed."
     end
+  end
 
+  def self.app_name
+    @@app_name
+  end
+
+  def self.skip_database?
+    @@options[:skip_database]
   end
 
   private

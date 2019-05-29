@@ -1,6 +1,7 @@
 class SinatraNew::ContentBuilder
 
-  def self.build_content(app_name)
+  def self.build_content
+    app_name = SinatraNew::Main.app_name
     build_app_controllers_files(app_name)
     build_app_views_layout_file(app_name)
     build_app_views_index_file(app_name)

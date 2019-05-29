@@ -1,7 +1,8 @@
 require 'fileutils'
 class SinatraNew::FileGenerator
 
-    def self.generate_files(app_name)
+    def self.generate_files
+      app_name = SinatraNew::Main.app_name
       puts "      create"
       FileUtils.mkdir(app_name)
 
