@@ -32,8 +32,12 @@ class SinatraNew::Main
     is_valid = false
     if args.length == 0
       usage("Missing app name")
-    elsif args.length > 1
-      usage("Too many arguments")
+    elsif args.length == 2
+      if args[1] == "--skip-database"
+        @@options[:skip_database] = true
+      else
+        usage("Invalid command")
+      end
     else
       if File.exists?(args[0])
         puts "Please choose a different app name. A file(or directory) already exists with that name in this folder."
@@ -45,7 +49,7 @@ class SinatraNew::Main
   end
 
   def self.usage(error_msg)
-    puts "#{error_msg}. Usage: sinatra_new <app_name>"
+    puts "#{error_msg}. Usage: sinatra_new <app_name> {--skip-database}"
   end
 
 end
