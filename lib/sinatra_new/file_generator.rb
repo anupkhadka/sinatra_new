@@ -3,6 +3,7 @@ class SinatraNew::FileGenerator
 
     def self.generate_files
       app_name = SinatraNew::Main.app_name
+      is_skip_database_true = SinatraNew::Main.skip_database?
       puts "      create"
       FileUtils.mkdir(app_name)
 
@@ -33,11 +34,13 @@ class SinatraNew::FileGenerator
       puts "      create  config/environment.rb"
       FileUtils.touch("#{app_name}/config/environment.rb")
 
-        # db
-      puts "      create  db"
-      FileUtils.mkdir("#{app_name}/db")
-      puts "      create  db/migrate"
-      FileUtils.mkdir("#{app_name}/db/migrate")
+      if !is_skip_database_true
+          # db
+        puts "      create  db"
+        FileUtils.mkdir("#{app_name}/db")
+        puts "      create  db/migrate"
+        FileUtils.mkdir("#{app_name}/db/migrate")
+      end
 
         # config.ru
       puts "      create  config.ru"

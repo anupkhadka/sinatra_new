@@ -29,23 +29,26 @@ class SinatraNew::Main
   private
 
   def self.cmd_arg_is_valid?(args)
-    is_valid = false
     if args.length == 0
       usage("Missing app name")
-    elsif args.length == 2
+      return false
+    end
+
+    if args.length == 2
       if args[1] == "--skip-database"
         @@options[:skip_database] = true
       else
         usage("Invalid command")
-      end
-    else
-      if File.exists?(args[0])
-        puts "Please choose a different app name. A file(or directory) already exists with that name in this folder."
-      else
-        is_valid = true
+        return false
       end
     end
-    is_valid
+
+    if File.exists?(args[0])
+      puts "Please choose a different app name. A file(or directory) already exists with that name in this folder."
+      return false
+    end
+
+    true
   end
 
   def self.usage(error_msg)

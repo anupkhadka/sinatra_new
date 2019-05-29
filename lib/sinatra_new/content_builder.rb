@@ -2,6 +2,7 @@ class SinatraNew::ContentBuilder
 
   def self.build_content
     app_name = SinatraNew::Main.app_name
+    is_skip_database_true = SinatraNew::Main.skip_database?
     build_app_controllers_files(app_name)
     build_app_views_layout_file(app_name)
     build_app_views_index_file(app_name)
@@ -68,11 +69,23 @@ class SinatraNew::ContentBuilder
   end
 
   def self.build_config_environment_file(app_name)
-    File.open("#{app_name}/config/environment.rb", 'w') do |file|
-      file.write(
-        <<~HEREDOC
+
+    if SinatraNew::Main.skip_database?
+      content =
+      <<~HEREDOC
         require 'bundler'
         require 'bundler/setup'
+
+        Bundler.require(:default)
+
+        require_all 'app'
+      HEREDOC
+    else
+      content =
+      <<~HEREDOC
+        require 'bundler'
+        require 'bundler/setup'
+
         Bundler.require(:default)
 
         ActiveRecord::Base.establish_connection(
@@ -81,54 +94,89 @@ class SinatraNew::ContentBuilder
         )
 
         require_all 'app'
-        HEREDOC
-      )
+      HEREDOC
+    end
+
+    File.open("#{app_name}/config/environment.rb", 'w') do |file|
+      file.write(content)
     end
   end
 
   def self.build_configru_file(app_name)
+    if SinatraNew::Main.skip_database?
+      content =
+      <<~HEREDOC
+      require './config/environment'
+
+      run ApplicationController
+      HEREDOC
+    else
+      content =
+      <<~HEREDOC
+      require './config/environment'
+
+      if ActiveRecord::Base.connection.migration_context.needs_migration?
+        raise 'Migrations are pending. Run `rake db:migrate` to resolve the issue.'
+      end
+
+      run ApplicationController
+      HEREDOC
+    end
+
     File.open("#{app_name}/config.ru", 'w') do |file|
-      file.write(
-        <<~HEREDOC
-        require './config/environment'
-
-        if ActiveRecord::Base.connection.migration_context.needs_migration?
-          raise 'Migrations are pending. Run `rake db:migrate` to resolve the issue.'
-        end
-
-        run ApplicationController
-        HEREDOC
-      )
+      file.write(content)
     end
   end
 
   def self.build_gemfile(app_name)
-    File.open("#{app_name}/Gemfile", 'w') do |file|
-      file.write(
-        <<~HEREDOC
-        source 'http://rubygems.org'
 
-        gem "require_all"
-        gem "sinatra"
-        gem "activerecord", :require => "active_record"
-        gem "sinatra-activerecord", :require => "sinatra/activerecord"
-        gem "sqlite3"
-        gem "rake"
-        gem "shotgun"
-        gem "thin"
-        HEREDOC
-      )
+    if SinatraNew::Main.skip_database?
+      content =
+      <<~HEREDOC
+      source 'http://rubygems.org'
+
+      gem "require_all"
+      gem "sinatra"
+      gem "rake"
+      gem "shotgun"
+      gem "thin"
+      HEREDOC
+    else
+      content =
+      <<~HEREDOC
+      source 'http://rubygems.org'
+
+      gem "require_all"
+      gem "sinatra"
+      gem "activerecord", :require => "active_record"
+      gem "sinatra-activerecord", :require => "sinatra/activerecord"
+      gem "sqlite3"
+      gem "rake"
+      gem "shotgun"
+      gem "thin"
+      HEREDOC
+    end
+
+    File.open("#{app_name}/Gemfile", 'w') do |file|
+      file.write(content)
     end
   end
 
   def self.build_rakefile(app_name)
+    if SinatraNew::Main.skip_database?
+      content =
+      <<~HEREDOC
+      require_relative './config/environment'
+      HEREDOC
+    else
+      content =
+      <<~HEREDOC
+      require_relative './config/environment'
+      require 'sinatra/activerecord/rake'
+      HEREDOC
+    end
     File.open("#{app_name}/Rakefile", 'w') do |file|
-      file.write(
-        <<~HEREDOC
-        require_relative './config/environment'
-        require 'sinatra/activerecord/rake'
-        HEREDOC
-      )
+      file.write(content)
     end
   end
 
