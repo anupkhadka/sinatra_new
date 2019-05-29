@@ -91,7 +91,7 @@ class SinatraNew::ContentBuilder
         <<~HEREDOC
         require './config/environment'
 
-        if ActiveRecord::Migrator.needs_migration?
+        if ActiveRecord::Base.connection.migration_context.needs_migration?
           raise 'Migrations are pending. Run `rake db:migrate` to resolve the issue.'
         end
 
@@ -107,18 +107,14 @@ class SinatraNew::ContentBuilder
         <<~HEREDOC
         source 'http://rubygems.org'
 
-        gem 'sinatra'
-        gem 'activerecord', '4.2.5', :require => 'active_record'
-        gem 'sinatra-activerecord', :require => 'sinatra/activerecord'
-        gem 'rake'
-        gem 'require_all'
-        gem 'sqlite3', '~>1.3.6'
-        gem 'thin'
-        gem 'shotgun'
-        gem 'pry'
-        gem 'bcrypt'
-        gem "tux"
-        gem "rack-flash3"
+        gem "require_all"
+        gem "sinatra"
+        gem "activerecord", :require => "active_record"
+        gem "sinatra-activerecord", :require => "sinatra/activerecord"
+        gem "sqlite3"
+        gem "rake"
+        gem "shotgun"
+        gem "thin"
         HEREDOC
       )
     end
