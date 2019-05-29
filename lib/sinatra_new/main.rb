@@ -14,9 +14,10 @@ class SinatraNew::Main
       puts "'git init' failed."
     end
 
-    puts "      run  bundle install"
-    if !system('bundle install')
-      puts "'bundle install' failed."
+    bundle_command = "bundle install --gemfile=#{app_name}/Gemfile"
+    puts "      run  #{bundle_command}"
+    if !system(bundle_command)
+      puts "'#{bundle_command}' failed."
     end
 
   end
