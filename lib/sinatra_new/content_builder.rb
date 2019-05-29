@@ -61,8 +61,8 @@ class SinatraNew::ContentBuilder
     File.open("#{app_name}/app/views/index.erb", 'w') do |file|
       file.write(
         <<~HEREDOC
-          <h1>#{title}</h1>
-          <h2>Landing page of your brand new sinatra app.</h2>
+          <h1 style="text-align:center;font-family:Garamond;color:grey">#{title}</h1>
+          <h2 style="text-align:center;font-family:Garamond;color:grey">You are in Sinatra</h2>
         HEREDOC
       )
     end
