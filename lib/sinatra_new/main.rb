@@ -9,7 +9,8 @@ class SinatraNew::Main
     SinatraNew::ContentBuilder.build_content(app_name)
 
     puts "      run  git init from '.'"
-    if !system('git init')
+    git_command = "git init #{app_name}"
+    if !system(git_command)
       puts "'git init' failed."
     end
 
