@@ -11,7 +11,7 @@ class SinatraNew::Main
     SinatraNew::FileGenerator.generate_files
     SinatraNew::ContentBuilder.build_content
 
-    puts "      run  git init from '.'"
+    puts "         run  git init inside #{@@app_name}"
     git_command = "git init #{@@app_name}"
     if !system(git_command)
       puts "'git init' failed."
